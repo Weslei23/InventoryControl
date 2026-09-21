@@ -6,10 +6,12 @@ import lombok.Data;
 @Data
 public class RegisterUserRequestDTO
 {
-    @NotBlank
+    @NotBlank( message = "argument 'username' must not be null or empty." )
     private String username;
-    @NotBlank
+
+    @NotBlank( message = "argument 'email' must not be null or empty." )
     private String email;
-    @NotBlank
+
+    @NotBlank( message = "argument 'password' must not be null or empty." )
     private String password;
 }
