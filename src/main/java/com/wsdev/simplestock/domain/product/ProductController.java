@@ -1,7 +1,6 @@
 package com.wsdev.simplestock.domain.product;
 
 import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
-import com.wsdev.simplestock.domain.category.dto.response.CategoryResponseDTO;
 import com.wsdev.simplestock.domain.product.dto.request.ProductRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.response.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
+@CrossOrigin( origins = "http://localhost:5173" )
 @RequestMapping( "/api/v1/product" )
 public class ProductController
 {
