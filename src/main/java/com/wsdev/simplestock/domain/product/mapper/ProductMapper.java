@@ -4,6 +4,7 @@ import com.wsdev.simplestock.domain.category.mapper.CategoryMapper;
 import com.wsdev.simplestock.domain.product.dto.request.ProductRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.response.ProductResponseDTO;
 import com.wsdev.simplestock.domain.product.model.Product;
+import com.wsdev.simplestock.domain.supplier.mapper.SupplierMapper;
 
 public class ProductMapper
 {
@@ -26,6 +27,7 @@ public class ProductMapper
         productResponseDTO.setMinimumQuantity( product.getMinimumQuantity() );
         productResponseDTO.setDescription( product.getDescription() );
         productResponseDTO.setPrice( product.getPrice() );
+        productResponseDTO.setSupplierResponseDTO( SupplierMapper.entityToDtoWithoutProducts( product.getSupplier() ) );
 
         return productResponseDTO;
     }

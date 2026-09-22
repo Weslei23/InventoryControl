@@ -3,7 +3,6 @@ package com.wsdev.simplestock.domain.category.mapper;
 import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
 import com.wsdev.simplestock.domain.category.dto.response.CategoryResponseDTO;
 import com.wsdev.simplestock.domain.category.model.Category;
-import com.wsdev.simplestock.domain.product.mapper.ProductMapper;
 
 public class CategoryMapper
 {

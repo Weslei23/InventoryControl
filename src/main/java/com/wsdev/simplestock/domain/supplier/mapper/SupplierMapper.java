@@ -28,6 +28,21 @@ public class SupplierMapper
     }
 
     /**
+     *
+     * @param supplier
+     * @return
+     */
+    public static SupplierResponseDTO entityToDtoWithoutProducts( Supplier supplier )
+    {
+        SupplierResponseDTO dto = new SupplierResponseDTO();
+
+        dto.setId( supplier.getId() );
+        dto.setName( supplier.getName() );
+
+        return dto;
+    }
+
+    /**
      * Dto to entity
      *
      * @param supplierRequestDTO
