@@ -3,10 +3,10 @@ package com.wsdev.simplestock.domain.movement;
 import com.wsdev.simplestock.domain.movement.dto.request.MovementRequestDTO;
 import com.wsdev.simplestock.domain.movement.dto.response.MovementResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController()
 @CrossOrigin( origins = "http://localhost:5173" )
@@ -18,9 +18,9 @@ public class MovementController
 
     @GetMapping()
     @ResponseStatus( HttpStatus.OK )
-    public List<MovementResponseDTO> getCategories() throws Exception
+    public Page<MovementResponseDTO> getCategories( Pageable pageable ) throws Exception
     {
-        return movementService.getMovements();
+        return movementService.getMovements( pageable );
     }
 
     @PostMapping( "/inbound" )

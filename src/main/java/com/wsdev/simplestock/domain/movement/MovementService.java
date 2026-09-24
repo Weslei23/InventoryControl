@@ -10,10 +10,9 @@ import com.wsdev.simplestock.domain.movement.model.enums.MovementType;
 import com.wsdev.simplestock.domain.product.ProductRepository;
 import com.wsdev.simplestock.common.utilities.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class MovementService
@@ -29,16 +28,11 @@ public class MovementService
      * @return
      * @throws Exception
      */
-    public List<MovementResponseDTO> getMovements() throws Exception
+    public Page<MovementResponseDTO> getMovements( Pageable pageable ) throws Exception
     {
-        List<MovementResponseDTO> movements = new ArrayList<>();
+        Page<Movement> movements = movementRepository.findAll( pageable );
 
-        for( Movement movement : movementRepository.findAll() )
-        {
-            movements.add( MovementMapper.entityToDto( movement ) );
-        }
-
-        return movements;
+        return movements.map( MovementMapper::entityToDto );
     }
 
     /**
@@ -110,7 +104,7 @@ public class MovementService
      * @param movementRequestDTO
      * @throws Exception
      */
-    public void exitProduct(MovementRequestDTO movementRequestDTO) throws Exception
+    public void exitProduct( MovementRequestDTO movementRequestDTO ) throws Exception
     {
         Validator.requiredNonNull( movementRequestDTO, new IllegalArgumentException( "argument 'movementRequestDTO' must not be null." ) );
 

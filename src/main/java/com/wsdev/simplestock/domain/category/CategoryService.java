@@ -8,10 +8,9 @@ import com.wsdev.simplestock.domain.category.model.Category;
 import com.wsdev.simplestock.common.utilities.Validator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CategoryService
@@ -23,16 +22,11 @@ public class CategoryService
      * Get all categories
      * @return
      */
-    public List<CategoryResponseDTO> getCategories()
+    public Page<CategoryResponseDTO> getCategories( Pageable pageable )
     {
-        List<CategoryResponseDTO> categoryDTOS = new ArrayList<>();
+        Page<Category> categoryDTOS = categoryRepository.findAll( pageable );
 
-        for( Category category : categoryRepository.findAll() )
-        {
-            categoryDTOS.add( CategoryMapper.entityToDto( category ) );
-        }
-
-        return categoryDTOS;
+        return categoryDTOS.map( CategoryMapper::entityToDto );
     }
 
     /**

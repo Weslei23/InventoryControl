@@ -2,7 +2,6 @@ package com.wsdev.simplestock.domain.product;
 
 import com.wsdev.simplestock.common.exceptions.RecordNotFoundException;
 import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
-import com.wsdev.simplestock.domain.category.dto.response.CategoryResponseDTO;
 import com.wsdev.simplestock.domain.product.dto.request.ProductRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.response.ProductResponseDTO;
 import com.wsdev.simplestock.domain.category.mapper.CategoryMapper;
@@ -18,11 +17,11 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ProductService
@@ -37,18 +36,14 @@ public class ProductService
     private SupplierRepository supplierRepository;
 
     /**
-     *
+     * getProducts()
      * @return
      */
-    public List<ProductResponseDTO> getProducts()
+    public Page<ProductResponseDTO> getProducts( Pageable pageable )
     {
-        List<ProductResponseDTO> productResponseDTOS = new ArrayList<>();
+        Page<Product> productResponseDTOS = productRepository.findAll( pageable );
 
-        for( Product product : productRepository.findAll() )
-        {
-            productResponseDTOS.add( ProductMapper.entityToDto( product ) );
-        }
-        return productResponseDTOS;
+        return productResponseDTOS.map( ProductMapper::entityToDto );
     }
 
     /**
@@ -68,18 +63,13 @@ public class ProductService
      * @param categoryName
      * @return
      */
-    public List<ProductResponseDTO> getProductsByCategoryName( String categoryName )
+    public Page<ProductResponseDTO> getProductsByCategoryName( String categoryName, Pageable pageable )
     {
-        List<ProductResponseDTO> productResponseDTOS = new ArrayList<>();
-
         Category category = categoryRepository.getCategoryByName( categoryName );
 
-        for( Product product : productRepository.getProductsByCategory( category ) )
-        {
-            productResponseDTOS.add( ProductMapper.entityToDto( product ) );
-        }
+        Page<Product> products = productRepository.getProductsByCategory( category, pageable );
 
-        return productResponseDTOS;
+        return products.map( ProductMapper::entityToDto );
     }
 
     /**

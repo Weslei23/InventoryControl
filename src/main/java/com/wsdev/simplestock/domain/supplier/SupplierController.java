@@ -3,10 +3,10 @@ package com.wsdev.simplestock.domain.supplier;
 import com.wsdev.simplestock.domain.supplier.dto.request.SupplierRequestDTO;
 import com.wsdev.simplestock.domain.supplier.dto.response.SupplierResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController()
 @CrossOrigin( origins = "http://localhost:5173" )
@@ -18,9 +18,9 @@ public class SupplierController
 
     @GetMapping()
     @ResponseStatus( HttpStatus.OK )
-    public List<SupplierResponseDTO> getSuppliers() throws Exception
+    public Page<SupplierResponseDTO> getSuppliers( Pageable pageable ) throws Exception
     {
-        return supplierService.getSuppliers();
+        return supplierService.getSuppliers( pageable );
     }
 
     @GetMapping( "/{id}" )

@@ -4,10 +4,10 @@ import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.request.ProductRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.response.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController()
 @CrossOrigin( origins = "http://localhost:5173" )
@@ -19,9 +19,9 @@ public class ProductController
 
     @GetMapping()
     @ResponseStatus( HttpStatus.OK )
-    public List<ProductResponseDTO> getProducts()
+    public Page<ProductResponseDTO> getProducts( Pageable pageable )
     {
-        return productService.getProducts();
+        return productService.getProducts( pageable );
     }
 
     @GetMapping( "/{id}" )

@@ -6,9 +6,9 @@ import com.wsdev.simplestock.domain.supplier.dto.response.SupplierResponseDTO;
 import com.wsdev.simplestock.domain.supplier.mapper.SupplierMapper;
 import com.wsdev.simplestock.domain.supplier.model.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SupplierService
@@ -35,9 +35,11 @@ public class SupplierService
      * @return
      * @throws Exception
      */
-    public List<SupplierResponseDTO> getSuppliers() throws Exception
+    public Page<SupplierResponseDTO> getSuppliers( Pageable pageable ) throws Exception
     {
-        return supplierRepository.findAll().stream().map( SupplierMapper::entityToDto ).toList();
+        Page<Supplier> suppliers = supplierRepository.findAll( pageable );
+
+        return suppliers.map( SupplierMapper::entityToDto );
     }
 
     /**
