@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController()
 @CrossOrigin( origins = "http://localhost:5173" )
@@ -38,11 +39,12 @@ public class ProductController
         return  productService.getProductByCategory( categoryRequestDTO );
     }
 
-    @PostMapping( "/add" )
+    @PostMapping( value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     @ResponseStatus( HttpStatus.CREATED )
-    public void addProduct( @RequestBody ProductRequestDTO productRequestDTO ) throws Exception
+    public void addProduct( @RequestPart( "product" ) ProductRequestDTO productRequestDTO,
+                            @RequestPart( value = "file", required = false ) MultipartFile file ) throws Exception
     {
-        productService.addProduct( productRequestDTO );
+        productService.addProduct( productRequestDTO, file );
     }
 
     @PutMapping( "/update/{id}" )

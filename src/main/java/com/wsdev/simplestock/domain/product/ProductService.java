@@ -20,8 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class ProductService
@@ -34,7 +38,7 @@ public class ProductService
 
     @Autowired
     private SupplierRepository supplierRepository;
-
+    private static String fileDirectory = "./shared/files/products";
     /**
      * getProducts()
      * @return
@@ -88,7 +92,7 @@ public class ProductService
      * addProduct
      * @param productRequestDTO
      */
-    public void addProduct( ProductRequestDTO productRequestDTO ) throws Exception
+    public void addProduct( ProductRequestDTO productRequestDTO, MultipartFile file ) throws Exception
     {
         Validator.requiredNonNull( productRequestDTO, new IllegalArgumentException( "Argument 'productDTO' must not be null" ) );
 
@@ -99,6 +103,18 @@ public class ProductService
                 .orElseThrow( () -> new RecordNotFoundException( productRequestDTO.getSupplierId() ) );
 
         Product product = ProductMapper.dtoToEntity( productRequestDTO );
+
+        if ( file != null && !file.isEmpty() )
+        {
+            byte[] bytes = file.getBytes();
+
+            Path filePath = Paths.get( fileDirectory, file.getOriginalFilename() );
+
+            Files.createDirectories( filePath.getParent() );
+            Files.write( filePath, bytes );
+
+            product.setImage( file.getOriginalFilename() );
+        }
 
         product.setCategory( category );
         product.setSupplier( supplier );
