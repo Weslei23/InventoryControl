@@ -1,6 +1,7 @@
 package com.wsdev.simplestock.domain.product.model;
 
 import com.wsdev.simplestock.domain.category.model.Category;
+import com.wsdev.simplestock.domain.product.model.enums.ProductState;
 import com.wsdev.simplestock.domain.supplier.model.Supplier;
 import com.wsdev.simplestock.domain.movement.model.Movement;
 import jakarta.persistence.*;
@@ -31,6 +32,9 @@ public class Product
     @ManyToOne
     @JoinColumn( name = "category_id", nullable = false )
     private Category category;
+
+    @Enumerated( EnumType.STRING )
+    private ProductState state;
 
     private BigDecimal price;
     private int quantity;

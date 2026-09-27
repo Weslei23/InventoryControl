@@ -20,6 +20,7 @@ public class MovementMapper
         movementResponseDTO.setMovementType( movement.getMovementType() );
         movementResponseDTO.setQuantity( movement.getQuantity() );
         movementResponseDTO.setCreatedAt( movement.getCreatedAt() );
+        movementResponseDTO.setUserName( movement.getUser().getUsername() );
 
         return movementResponseDTO;
     }

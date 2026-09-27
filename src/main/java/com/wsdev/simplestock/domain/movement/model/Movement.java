@@ -2,6 +2,7 @@ package com.wsdev.simplestock.domain.movement.model;
 
 import com.wsdev.simplestock.domain.product.model.Product;
 import com.wsdev.simplestock.domain.movement.model.enums.MovementType;
+import com.wsdev.simplestock.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,10 @@ public class Movement
     @Enumerated( EnumType.STRING )
     @Column( name = "movement_type" )
     private MovementType movementType;
+
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "id_usuario", nullable = false )
+    private User user;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

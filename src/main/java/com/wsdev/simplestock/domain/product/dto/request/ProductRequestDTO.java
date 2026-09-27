@@ -1,5 +1,6 @@
 package com.wsdev.simplestock.domain.product.dto.request;
 
+import com.wsdev.simplestock.domain.product.model.enums.ProductState;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -14,6 +15,9 @@ public class ProductRequestDTO
     private String description;
 
     private String image;
+
+    @NotNull( message = "argument 'state' must not be null." )
+    private ProductState state;
 
     @NotNull( message = "argument 'price' must not be null." )
     @DecimalMin( value = "0.01", message = "argument 'price' must be greater than 0." )

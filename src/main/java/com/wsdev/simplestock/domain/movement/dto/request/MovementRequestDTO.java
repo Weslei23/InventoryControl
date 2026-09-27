@@ -14,6 +14,9 @@ public class MovementRequestDTO
     @NotNull( message = "argument 'movementType' must not be null." )
     private MovementType movementType;
 
+    @NotNull( message = "argument 'userId' must not be null." )
+    private Long userId;
+
     @NotNull( message = "argument 'quantity' must not be null." )
     @Min( value = 0, message = "argument 'quantity' must be greater than or equal to 0." )
     private int quantity;

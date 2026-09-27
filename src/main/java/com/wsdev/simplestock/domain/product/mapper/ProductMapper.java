@@ -28,6 +28,7 @@ public class ProductMapper
         productResponseDTO.setDescription( product.getDescription() );
         productResponseDTO.setPrice( product.getPrice() );
         productResponseDTO.setSupplierResponseDTO( SupplierMapper.entityToDtoWithoutProducts( product.getSupplier() ) );
+        productResponseDTO.setState( product.getState() );
 
         return productResponseDTO;
     }
@@ -49,6 +50,7 @@ public class ProductMapper
         product.setDescription( productRequestDTO.getDescription() );
         product.setMinimumQuantity( productRequestDTO.getMinimumQuantity() );
         product.setPrice( productRequestDTO.getPrice() );
+        product.setState( productRequestDTO.getState() );
 
         return product;
     }

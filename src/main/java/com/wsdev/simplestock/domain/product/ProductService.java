@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,9 @@ public class ProductService
 
     @Autowired
     private SupplierRepository supplierRepository;
-    private static String fileDirectory = "./shared/files/products";
+
+    @Value( "${file.upload-dir}" )
+    private String fileDirectory;
     /**
      * getProducts()
      * @return

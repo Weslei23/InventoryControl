@@ -10,6 +10,7 @@ public class MovementResponseDTO
 {
     private Long id;
     private MovementType movementType;
+    private String userName;
     private int quantity;
     private LocalDateTime createdAt;
 }

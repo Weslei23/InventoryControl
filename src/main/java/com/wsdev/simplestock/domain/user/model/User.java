@@ -1,11 +1,13 @@
 package com.wsdev.simplestock.domain.user.model;
 
+import com.wsdev.simplestock.domain.movement.model.Movement;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class User implements UserDetails
     private String email;
     private String username;
     private String password;
+
+    @OneToMany( mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true )
+    private List<Movement> movements = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()

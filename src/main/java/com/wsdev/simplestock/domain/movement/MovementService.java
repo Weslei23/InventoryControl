@@ -9,6 +9,8 @@ import com.wsdev.simplestock.domain.product.model.Product;
 import com.wsdev.simplestock.domain.movement.model.enums.MovementType;
 import com.wsdev.simplestock.domain.product.ProductRepository;
 import com.wsdev.simplestock.common.utilities.Validator;
+import com.wsdev.simplestock.domain.user.UserRepository;
+import com.wsdev.simplestock.domain.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ public class MovementService
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * get movements
@@ -47,9 +52,31 @@ public class MovementService
         Product product = productRepository.findById( movementRequestDTO.getProductId() )
                 .orElseThrow(( ) -> new RecordNotFoundException( movementRequestDTO.getProductId() ) );
 
+        User user = userRepository.findById( movementRequestDTO.getUserId() )
+                .orElseThrow( ( ) -> new RecordNotFoundException( movementRequestDTO.getUserId() ) );
+
+        if ( MovementType.INBOUND.equals( movementRequestDTO.getMovementType() ) )
+        {
+            product.setQuantity( product.getQuantity() + movementRequestDTO.getQuantity() );
+        }
+        else if ( MovementType.OUTBOUND.equals( movementRequestDTO.getMovementType() ) )
+        {
+            int newQuantity = product.getQuantity() - movementRequestDTO.getQuantity();
+
+            if ( newQuantity < 0 )
+            {
+                throw new IllegalArgumentException( "Insufficient stock." );
+            }
+
+            product.setQuantity( newQuantity );
+        }
+
+        productRepository.save( product );
+
         Movement movement = MovementMapper.dtoToEntity( movementRequestDTO );
 
         movement.setProduct( product );
+        movement.setUser( user );
 
         movementRepository.save( movement );
     }
@@ -68,9 +95,13 @@ public class MovementService
         Product product = productRepository.findById( movementRequestDTO.getProductId() )
                 .orElseThrow( () -> new RecordNotFoundException( movementRequestDTO.getProductId() ) );
 
+        User user = userRepository.findById( movementRequestDTO.getUserId() )
+                .orElseThrow( ( ) -> new RecordNotFoundException( movementRequestDTO.getUserId() ) );
+
         movement.setProduct( product );
         movement.setMovementType( movementRequestDTO.getMovementType() );
         movement.setQuantity( movementRequestDTO.getQuantity() );
+        movement.setUser( user );
 
         movementRepository.save( movement );
     }
@@ -89,11 +120,15 @@ public class MovementService
             Product product = productRepository.findById( movementRequestDTO.getProductId() )
                     .orElseThrow( () -> new RecordNotFoundException( movementRequestDTO.getProductId() ) );
 
+            User user = userRepository.findById( movementRequestDTO.getUserId() )
+                    .orElseThrow( ( ) -> new RecordNotFoundException( movementRequestDTO.getUserId() ) );
+
             product.setQuantity( product.getQuantity() + movementRequestDTO.getQuantity() );
             productRepository.save( product );
 
             Movement newMovement = MovementMapper.dtoToEntity( movementRequestDTO );
-            newMovement.setProduct(product);
+            newMovement.setProduct( product );
+            newMovement.setUser( user );
 
             movementRepository.save( newMovement );
         }
@@ -121,6 +156,9 @@ public class MovementService
         Product product = productRepository.findById( movementRequestDTO.getProductId() )
                 .orElseThrow( () -> new RecordNotFoundException( movementRequestDTO.getProductId() ) );
 
+        User user = userRepository.findById( movementRequestDTO.getUserId() )
+                .orElseThrow( ( ) -> new RecordNotFoundException( movementRequestDTO.getUserId() ) );
+
         int newQuantity = product.getQuantity() - movementRequestDTO.getQuantity();
 
         if ( newQuantity < 0 )
@@ -134,6 +172,7 @@ public class MovementService
 
         Movement newMovement = MovementMapper.dtoToEntity( movementRequestDTO );
         newMovement.setProduct( product );
+        newMovement.setUser( user );
 
         movementRepository.save( newMovement );
     }
