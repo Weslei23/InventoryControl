@@ -2,6 +2,7 @@ package com.wsdev.simplestock.domain.category;
 
 import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
 import com.wsdev.simplestock.domain.category.dto.response.CategoryResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class CategoryController
 
     @GetMapping()
     @ResponseStatus( HttpStatus.OK )
-    public Page<CategoryResponseDTO> getCategories(Pageable pageable )
+    public Page<CategoryResponseDTO> getCategories( Pageable pageable )
     {
         return categoryService.getCategories( pageable );
     }
@@ -32,14 +33,14 @@ public class CategoryController
 
     @PostMapping( "/add" )
     @ResponseStatus( HttpStatus.CREATED )
-    public void addCategory( @RequestBody CategoryRequestDTO categoryRequestDTO ) throws Exception
+    public void addCategory( @Valid @RequestBody CategoryRequestDTO categoryRequestDTO ) throws Exception
     {
         categoryService.addCategory( categoryRequestDTO );
     }
 
     @PutMapping( "/update/{id}" )
     @ResponseStatus( HttpStatus.NO_CONTENT )
-    public void updateCategory( @PathVariable Long id, @RequestBody CategoryRequestDTO categoryRequestDTO ) throws Exception
+    public void updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryRequestDTO categoryRequestDTO ) throws Exception
     {
         categoryService.updateCategory( id, categoryRequestDTO );
     }

@@ -1,4 +1,4 @@
-package com.wsdev.simplestock.controller;
+package com.wsdev.simplestock.common.exceptions.controller;
 
 import com.wsdev.simplestock.common.exceptions.RecordNotFoundException;
 import org.springframework.http.HttpStatus;

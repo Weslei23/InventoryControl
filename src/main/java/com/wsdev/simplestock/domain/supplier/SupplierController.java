@@ -2,6 +2,7 @@ package com.wsdev.simplestock.domain.supplier;
 
 import com.wsdev.simplestock.domain.supplier.dto.request.SupplierRequestDTO;
 import com.wsdev.simplestock.domain.supplier.dto.response.SupplierResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,14 +40,14 @@ public class SupplierController
 
     @PostMapping( "/add" )
     @ResponseStatus( HttpStatus.CREATED )
-    public void addSupplier( @RequestBody SupplierRequestDTO supplierRequestDTO ) throws Exception
+    public void addSupplier( @Valid @RequestBody SupplierRequestDTO supplierRequestDTO ) throws Exception
     {
         supplierService.addSupplier( supplierRequestDTO );
     }
 
     @PutMapping( "/update/{id}" )
     @ResponseStatus( HttpStatus.NO_CONTENT )
-    public void updateSupplier( @PathVariable Long id, @RequestBody SupplierRequestDTO supplierRequestDTO ) throws Exception
+    public void updateSupplier( @Valid @PathVariable Long id, @RequestBody SupplierRequestDTO supplierRequestDTO ) throws Exception
     {
         supplierService.updateSupplier( id, supplierRequestDTO );
     }

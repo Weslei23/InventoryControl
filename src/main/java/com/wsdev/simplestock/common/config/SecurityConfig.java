@@ -34,6 +34,7 @@ public class SecurityConfig
                         .dispatcherTypeMatchers( DispatcherType.ERROR ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login" ).permitAll()
                         .requestMatchers( HttpMethod.POST, "/api/v1/auth/register" ).permitAll()
+                        .requestMatchers( HttpMethod.GET, "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" ).permitAll()
                         .anyRequest().authenticated() )
                 .addFilterBefore( securityFilter, UsernamePasswordAuthenticationFilter.class )
                 .build();

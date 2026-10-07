@@ -3,6 +3,7 @@ package com.wsdev.simplestock.domain.product;
 import com.wsdev.simplestock.domain.category.dto.request.CategoryRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.request.ProductRequestDTO;
 import com.wsdev.simplestock.domain.product.dto.response.ProductResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class ProductController
 
     @PostMapping( value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     @ResponseStatus( HttpStatus.CREATED )
-    public void addProduct( @RequestPart( "product" ) ProductRequestDTO productRequestDTO,
+    public void addProduct( @Valid @RequestPart( "product" ) ProductRequestDTO productRequestDTO,
                             @RequestPart( value = "file", required = false ) MultipartFile file ) throws Exception
     {
         productService.addProduct( productRequestDTO, file );
@@ -49,7 +50,7 @@ public class ProductController
 
     @PutMapping( "/update/{id}" )
     @ResponseStatus( HttpStatus.NO_CONTENT )
-    public void updateProduct( @PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO )
+    public void updateProduct( @Valid @PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO )
     {
         productService.updateProduct( id, productRequestDTO );
     }
